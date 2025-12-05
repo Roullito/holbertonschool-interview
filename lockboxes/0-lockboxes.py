@@ -1,4 +1,7 @@
 def canUnlockAll(boxes):
+    """Return True if every box can be opened starting from box 0. Or False if
+    not every boxes can be open.
+    """
     n = len(boxes)
     opened = {0}
     to_explore = [0]
