@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 def canUnlockAll(boxes):
     """Return True if every box can be opened starting from box 0. Or False if
     not every boxes can be open.
