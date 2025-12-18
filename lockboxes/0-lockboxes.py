@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Module to determine if all boxes can be unlocked."""
 
 def canUnlockAll(boxes):
     """Return True if every box can be opened starting from box 0. Or False if
