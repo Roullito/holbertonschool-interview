@@ -15,7 +15,10 @@ def print_stats(total_size, counts):
 
 
 def parse_line(line):
-    """Parse one log line and return status code and file size independently."""
+    """Parse one log line.
+
+    Returns status code and file size independently.
+    """
     parts = line.strip().split()
     status = None
     size = None
