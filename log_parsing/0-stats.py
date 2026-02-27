@@ -55,6 +55,10 @@ def main():
                 print_stats(total_size, counts)
     except KeyboardInterrupt:
         print_stats(total_size, counts)
+        return
+
+    if line_count % 10 != 0 and line_count > 0:
+        print_stats(total_size, counts)
 
 
 if __name__ == "__main__":
