@@ -1,14 +1,9 @@
 #!/usr/bin/python3
 """Read stdin logs and compute metrics."""
-
-import re
 import sys
 
 
 VALID_CODES = [200, 301, 400, 401, 403, 404, 405, 500]
-LINE_RE = re.compile(
-    r'^\S+ - \[.*\] "GET /projects/260 HTTP/1\.1" (\d+) (\d+)$'
-)
 
 
 def print_stats(total_size, counts):
@@ -21,15 +16,14 @@ def print_stats(total_size, counts):
 
 def parse_line(line):
     """Parse one log line and return status code and file size."""
-    match = LINE_RE.match(line.strip())
-
-    if match is None:
-        return (None, None)
+    parts = line.strip().split()
 
     try:
-        status = int(match.group(1))
-        size = int(match.group(2))
+        status = int(parts[-2])
+        size = int(parts[-1])
     except (TypeError, ValueError):
+        return (None, None)
+    except IndexError:
         return (None, None)
 
     return (status, size)
