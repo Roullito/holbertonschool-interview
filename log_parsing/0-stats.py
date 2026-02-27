@@ -15,16 +15,24 @@ def print_stats(total_size, counts):
 
 
 def parse_line(line):
-    """Parse one log line and return status code and file size."""
+    """Parse one log line and return status code and file size independently."""
     parts = line.strip().split()
+    status = None
+    size = None
+
+    try:
+        size = int(parts[-1])
+    except IndexError:
+        pass
+    except (TypeError, ValueError):
+        pass
 
     try:
         status = int(parts[-2])
-        size = int(parts[-1])
-    except (TypeError, ValueError):
-        return (None, None)
     except IndexError:
-        return (None, None)
+        pass
+    except (TypeError, ValueError):
+        pass
 
     return (status, size)
 
@@ -40,10 +48,11 @@ def main():
             line_count += 1
 
             status, size = parse_line(line)
-            if status is not None and size is not None:
+            if size is not None:
                 total_size += size
-                if status in counts:
-                    counts[status] += 1
+
+            if status in counts:
+                counts[status] += 1
 
             if line_count % 10 == 0:
                 print_stats(total_size, counts)
