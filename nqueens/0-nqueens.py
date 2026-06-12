@@ -1,81 +1,35 @@
 #!/usr/bin/python3
-"""
-N Queens puzzle solver.
-
-This program solves the N Queens problem using a backtracking algorithm.
-It places N queens on an N x N chessboard so that no two queens attack
-each other, and prints all possible solutions.
-"""
-
+"""Solve the N queens puzzle."""
 
 import sys
 
 
-def is_safe(row, col):
-    """
-    Check whether a queen can be placed at a given position.
-
-    A position is considered safe if no previously placed queen shares
-    the same column or diagonal with the candidate position.
-
-    Args:
-        row (int): Row where the queen is to be placed.
-        col (int): Column where the queen is to be placed.
-
-    Returns:
-        bool: True if the position is safe, False otherwise.
-    """
-    for r, c in solutions:
-        if c == col:
+def is_safe(solution, row, col):
+    """Return True if a queen can be placed at row, col."""
+    for queen_row, queen_col in solution:
+        if queen_col == col:
             return False
-
-        if abs(r - row) == abs(c - col):
+        if abs(queen_row - row) == abs(queen_col - col):
             return False
 
     return True
 
 
-def solve(row):
-    """
-    Solve the N Queens puzzle using backtracking.
-
-    The function attempts to place a queen in each column of the current
-    row. When a valid position is found, the queen is placed and the
-    algorithm recursively proceeds to the next row. If no valid position
-    is available, the function backtracks and tries another placement.
-
-    Args:
-        row (int): Current row being processed.
-
-    Returns:
-        None
-    """
-    if row == N:
-        print(solutions)
+def solve_nqueens(n, row, solution):
+    """Print every solution for an n by n chessboard."""
+    if row == n:
+        print(solution)
         return
 
-    for col in range(N):
-        if is_safe(row, col):
-            solutions.append([row, col])
-            solve(row + 1)
-            solutions.pop()
+    for col in range(n):
+        if is_safe(solution, row, col):
+            solution.append([row, col])
+            solve_nqueens(n, row + 1, solution)
+            solution.pop()
 
 
 def main():
-    """
-    Validate command-line arguments and initialize the solver.
-
-    Ensures that:
-    - Exactly one argument is provided.
-    - The argument is a valid integer.
-    - The integer is greater than or equal to 4.
-
-    Returns:
-        int: The validated board size.
-
-    Raises:
-        SystemExit: If the provided arguments are invalid.
-    """
+    """Validate arguments and start the solver."""
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
@@ -90,9 +44,8 @@ def main():
         print("N must be at least 4")
         sys.exit(1)
 
-    return n
+    solve_nqueens(n, 0, [])
 
 
-N = main()
-solutions = []
-solve(0)
+if __name__ == "__main__":
+    main()
