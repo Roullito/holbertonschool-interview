@@ -41,4 +41,3 @@ def validUTF8(data):
                 return False
 
     return remaining == 0
-
